@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto p-8">
+        <h1 class="text-3xl font-bold text-center mb-8">Admin Panel</h1>
+        <table class="table-auto w-full bg-white rounded shadow-md">
+            <thead>
+                <tr>
+                    <th class="px-4 py-2">Paste ID</th>
+                    <th class="px-4 py-2">Content</th>
+                    <th class="px-4 py-2">IP</th>
+                    <th class="px-4 py-2">Date Created</th>
+                    <th class="px-4 py-2">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% pastes.forEach(function(paste) { %>
+                    <tr>
+                        <td class="border px-4 py-2"><%= paste.pasteId %></td>
+                        <td class="border px-4 py-2"><pre class="whitespace-pre-wrap"><%= paste.content %></pre></td>
+                        <td class="border px-4 py-2"><%= paste.ip %></td>
+                        <td class="border px-4 py-2"><%= new Date(paste.createdAt).toLocaleString() %></td>
+                        <td class="border px-4 py-2">
+                            <div class="flex space-x-2">
+                                <form action="/admin/edit/<%= paste.pasteId %>" method="POST">
+                                    <textarea name="content" rows="4" class="w-full p-2 border border-gray-300 rounded"><%= paste.content %></textarea>
+                                    <button type="submit" class="bg-yellow-500 text-white p-2 rounded mt-2 w-full">Modify</button>
+                                </form>
+                                <form action="/admin/delete/<%= paste.pasteId %>" method="POST">
+                                    <button type="submit" class="bg-red-500 text-white p-2 rounded mt-2 w-full">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
